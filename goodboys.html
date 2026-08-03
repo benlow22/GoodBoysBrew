@@ -1,0 +1,531 @@
+<title>Good Boys Brew — Kombucha with an Asian Twist</title>
+<style>
+  :root {
+    color-scheme: dark;
+    --ground: #241811;
+    --ground-2: #2c1e14;
+    --panel: #33241a;
+    --panel-2: #3c2b1e;
+    --line: #4a3624;
+    --gold: #c9a24b;
+    --gold-hi: #e7c976;
+    --gold-deep: #a07a2f;
+    --parch: #f1e6d2;
+    --parch-dim: #cdbCa2;
+    --parch-dim: #cebfa4;
+    --jade: #8a9a6b;
+    --shadow: rgba(0,0,0,.45);
+    --logo: none;
+
+    --serif: "Didot", "Bodoni 72", "Hoefler Text", "Playfair Display", Garamond, "Times New Roman", serif;
+    --sans: "Avenir Next", "Segoe UI", "Helvetica Neue", -apple-system, system-ui, sans-serif;
+
+    --maxw: 1180px;
+    --step-1: clamp(.78rem, .76rem + .2vw, .86rem);
+    --step0: clamp(1rem, .96rem + .2vw, 1.08rem);
+    --step1: clamp(1.2rem, 1.1rem + .5vw, 1.45rem);
+    --step2: clamp(1.6rem, 1.3rem + 1.4vw, 2.4rem);
+    --step3: clamp(2.4rem, 1.8rem + 3vw, 4.2rem);
+    --step4: clamp(3.4rem, 2.2rem + 6vw, 7rem);
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--parch);
+    font-family: var(--sans);
+    font-size: var(--step0);
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3 { font-family: var(--serif); font-weight: 400; margin: 0; text-wrap: balance; letter-spacing: .01em; }
+
+  .wrap { max-width: var(--maxw); margin-inline: auto; padding-inline: clamp(1.1rem, 4vw, 2.5rem); }
+
+  .eyebrow {
+    font-family: var(--sans);
+    font-size: var(--step-1);
+    text-transform: uppercase;
+    letter-spacing: .32em;
+    color: var(--gold);
+    font-weight: 600;
+  }
+
+  a { color: inherit; }
+
+  /* ---------- decorative rules ---------- */
+  .rule { display: flex; align-items: center; gap: 1rem; color: var(--gold-deep); }
+  .rule::before, .rule::after { content: ""; height: 1px; flex: 1; background: linear-gradient(90deg, transparent, var(--gold-deep), transparent); }
+  .rule .diamond { width: 7px; height: 7px; background: var(--gold); transform: rotate(45deg); box-shadow: 0 0 0 4px rgba(201,162,75,.12); }
+
+  /* ---------- top bar ---------- */
+  .topbar {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(28,19,13,.82);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--line);
+  }
+  .topbar-inner { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; padding-block: .75rem; }
+  .brand-lockup { display: flex; align-items: center; gap: .7rem; }
+  .logo-ph {
+    width: 44px; height: 44px; border-radius: 50%;
+    border: 1px solid var(--gold);
+    background-image: var(--logo);
+    background-size: cover; background-position: center;
+    box-shadow: 0 0 0 3px rgba(201,162,75,.14);
+    flex: 0 0 auto;
+  }
+  .brand-name { display: flex; flex-direction: column; line-height: 1.05; }
+  .brand-name b { font-family: var(--serif); font-weight: 400; font-size: 1.15rem; letter-spacing: .02em; }
+  .brand-name span { font-size: .58rem; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); }
+
+  nav { display: flex; gap: 1.7rem; }
+  nav a { font-size: .82rem; letter-spacing: .12em; text-transform: uppercase; text-decoration: none; color: var(--parch-dim); transition: color .2s; }
+  nav a:hover { color: var(--gold-hi); }
+
+  .cart {
+    display: inline-flex; align-items: center; gap: .5rem;
+    border: 1px solid var(--gold-deep); color: var(--gold-hi);
+    padding: .5rem .9rem; border-radius: 2px; font-size: .74rem; letter-spacing: .14em; text-transform: uppercase;
+    background: transparent; cursor: pointer; transition: background .2s, border-color .2s;
+  }
+  .cart:hover { background: rgba(201,162,75,.12); border-color: var(--gold); }
+
+  @media (max-width: 780px) { nav { display: none; } }
+
+  /* ---------- hero image header ---------- */
+  .hero {
+    position: relative; overflow: hidden;
+    min-height: clamp(420px, 62vh, 640px);
+    display: grid; place-items: center;
+    background:
+      radial-gradient(120% 90% at 50% 8%, rgba(231,201,118,.14), transparent 55%),
+      radial-gradient(90% 120% at 80% 110%, rgba(160,122,47,.22), transparent 60%),
+      linear-gradient(180deg, #2c1d12 0%, #1c130c 100%);
+    border-bottom: 1px solid var(--line);
+  }
+  .hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; opacity: .5; }
+  .hero-corner { position: absolute; width: 120px; height: 120px; border: 1px solid var(--gold-deep); opacity: .55; }
+  .hero-corner.tl { top: 22px; left: 22px; border-right: 0; border-bottom: 0; }
+  .hero-corner.tr { top: 22px; right: 22px; border-left: 0; border-bottom: 0; }
+  .hero-corner.bl { bottom: 22px; left: 22px; border-right: 0; border-top: 0; }
+  .hero-corner.br { bottom: 22px; right: 22px; border-left: 0; border-top: 0; }
+
+  .hero-content { position: relative; text-align: center; z-index: 2; padding: 2rem; }
+  .enso { width: clamp(210px, 34vw, 340px); height: auto; margin: 0 auto .3rem; display: block; }
+  .hero-mono {
+    position: absolute; inset: 0; margin: auto;
+    width: clamp(120px, 20vw, 190px); height: clamp(120px, 20vw, 190px);
+    border-radius: 50%;
+    background-image: var(--logo); background-size: cover; background-position: center;
+    border: 1px solid var(--gold); box-shadow: 0 0 0 6px rgba(36,24,17,.6), 0 10px 30px rgba(0,0,0,.5);
+    pointer-events: none;
+  }
+  .hero-photo-tag {
+    position: absolute; left: 50%; bottom: 14px; transform: translateX(-50%);
+    font-size: .55rem; letter-spacing: .22em; text-transform: uppercase; color: var(--gold-deep);
+  }
+  .hero-kicker { font-family: var(--serif); font-size: var(--step2); color: var(--parch); font-style: italic; }
+
+  /* ---------- slogan band (under the header) ---------- */
+  .slogan {
+    background: linear-gradient(180deg, var(--ground-2), var(--ground));
+    border-bottom: 1px solid var(--line);
+    text-align: center; padding-block: clamp(2.2rem, 5vw, 3.6rem);
+  }
+  .slogan h1 { font-size: var(--step3); line-height: 1.08; color: var(--parch); }
+  .slogan h1 .accent { color: var(--gold-hi); font-style: italic; }
+  .slogan p { max-width: 44ch; margin: 1.1rem auto 0; color: var(--parch-dim); }
+  .slogan .cta-row { display: flex; gap: .9rem; justify-content: center; flex-wrap: wrap; margin-top: 1.6rem; }
+
+  .btn {
+    display: inline-flex; align-items: center; gap: .5rem;
+    padding: .85rem 1.6rem; border-radius: 2px; text-decoration: none;
+    font-size: .78rem; letter-spacing: .16em; text-transform: uppercase; font-weight: 600;
+    transition: transform .15s, box-shadow .2s, background .2s;
+  }
+  .btn-gold { background: linear-gradient(180deg, var(--gold-hi), var(--gold)); color: #2a1c0f; box-shadow: 0 6px 20px rgba(160,122,47,.35); }
+  .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 10px 26px rgba(160,122,47,.5); }
+  .btn-ghost { border: 1px solid var(--gold-deep); color: var(--gold-hi); }
+  .btn-ghost:hover { background: rgba(201,162,75,.12); border-color: var(--gold); }
+
+  /* ---------- sections ---------- */
+  section { padding-block: clamp(3rem, 7vw, 5.5rem); }
+  .section-head { text-align: center; margin-bottom: 2.6rem; display: flex; flex-direction: column; gap: .9rem; align-items: center; }
+  .section-head h2 { font-size: var(--step2); color: var(--parch); }
+  .section-head p { max-width: 52ch; color: var(--parch-dim); margin: 0; }
+
+  /* story */
+  .story { background: var(--ground-2); border-block: 1px solid var(--line); }
+  .story-grid { display: grid; grid-template-columns: 1.05fr .95fr; gap: clamp(1.5rem, 4vw, 3.5rem); align-items: center; }
+  .story-copy h2 { font-size: var(--step2); color: var(--parch); margin-bottom: 1rem; }
+  .story-copy p { color: var(--parch-dim); margin: 0 0 1rem; }
+  .story-copy p:last-child { margin-bottom: 0; }
+  .story-art {
+    aspect-ratio: 4/5; border-radius: 3px; position: relative; overflow: hidden;
+    border: 1px solid var(--gold-deep);
+    background:
+      radial-gradient(80% 60% at 30% 20%, rgba(231,201,118,.16), transparent 60%),
+      linear-gradient(160deg, #3a2718, #221812);
+    display: grid; place-items: center;
+  }
+  .story-art .ph-label { font-size: .58rem; letter-spacing: .22em; text-transform: uppercase; color: var(--gold-deep); }
+  @media (max-width: 760px) { .story-grid { grid-template-columns: 1fr; } .story-art { aspect-ratio: 16/10; } }
+
+  /* products */
+  .filters { display: flex; gap: .6rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2.2rem; }
+  .chip {
+    padding: .5rem 1rem; border-radius: 999px; font-size: .72rem; letter-spacing: .1em; text-transform: uppercase;
+    border: 1px solid var(--line); color: var(--parch-dim); background: transparent; cursor: pointer; transition: .2s;
+  }
+  .chip[aria-pressed="true"], .chip:hover { border-color: var(--gold); color: var(--gold-hi); background: rgba(201,162,75,.1); }
+
+  .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.3rem; }
+  @media (max-width: 960px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 500px) { .grid { grid-template-columns: 1fr; } }
+
+  .card {
+    background: linear-gradient(180deg, var(--panel), var(--panel-2));
+    border: 1px solid var(--line); border-radius: 4px; overflow: hidden;
+    display: flex; flex-direction: column; transition: transform .2s, border-color .2s, box-shadow .2s;
+  }
+  .card:hover { transform: translateY(-4px); border-color: var(--gold-deep); box-shadow: 0 14px 30px var(--shadow); }
+  .card-img { aspect-ratio: 1; position: relative; display: grid; place-items: center; border-bottom: 1px solid var(--line); }
+  .card-tag { position: absolute; top: .7rem; left: .7rem; font-size: .56rem; letter-spacing: .12em; text-transform: uppercase; color: var(--ground); background: var(--gold); padding: .22rem .5rem; border-radius: 2px; font-weight: 700; }
+  .fulfil { position: absolute; bottom: .7rem; left: .7rem; right: .7rem; padding-top: 1.1rem; font-size: .56rem; letter-spacing: .1em; text-transform: uppercase; color: var(--jade); display: flex; align-items: center; gap: .35rem; }
+  .card-body { padding: 1rem 1.05rem 1.2rem; display: flex; flex-direction: column; gap: .5rem; flex: 1; }
+  .card-body h3 { font-size: var(--step1); color: var(--parch); line-height: 1.15; }
+  .card-body .note { font-size: .8rem; color: var(--parch-dim); margin: 0; flex: 1; }
+  .card-foot { display: flex; align-items: center; justify-content: space-between; margin-top: .4rem; }
+  .price { font-family: var(--serif); font-size: 1.3rem; color: var(--gold-hi); font-variant-numeric: tabular-nums; }
+  .add {
+    border: 1px solid var(--gold-deep); background: transparent; color: var(--gold-hi);
+    padding: .5rem .85rem; border-radius: 2px; font-size: .68rem; letter-spacing: .12em; text-transform: uppercase; cursor: pointer; transition: .2s;
+  }
+  .add:hover { background: var(--gold); color: #2a1c0f; border-color: var(--gold); }
+
+  /* bottle illustration */
+  .bottle { width: 35%; height: auto; filter: drop-shadow(0 8px 14px rgba(0,0,0,.4)); }
+
+  /* how it works */
+  .how { background: var(--ground-2); border-block: 1px solid var(--line); }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.4rem; }
+  @media (max-width: 760px) { .steps { grid-template-columns: 1fr; } }
+  .step { border: 1px solid var(--line); border-radius: 4px; padding: 1.6rem; background: var(--panel); display: flex; flex-direction: column; gap: .6rem; }
+  .step .num { font-family: var(--serif); font-size: 2.4rem; color: var(--gold-deep); line-height: 1; }
+  .step h3 { font-size: var(--step1); color: var(--parch); }
+  .step p { margin: 0; color: var(--parch-dim); font-size: .9rem; }
+
+  .fulfil-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.2rem; margin-top: 2rem; }
+  @media (max-width: 760px) { .fulfil-row { grid-template-columns: 1fr; } }
+  .fulfil-card { display: flex; gap: .9rem; align-items: flex-start; border: 1px solid var(--line); border-radius: 4px; padding: 1.1rem; background: rgba(0,0,0,.15); }
+  .fulfil-card .ic { color: var(--gold); flex: 0 0 auto; margin-top: .1rem; }
+  .fulfil-card b { font-family: var(--serif); font-weight: 400; font-size: 1.1rem; color: var(--parch); display: block; }
+  .fulfil-card span { font-size: .82rem; color: var(--parch-dim); }
+
+  /* footer */
+  footer { background: #1a110b; border-top: 1px solid var(--line); padding-block: 3rem 2rem; }
+  .foot-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 2rem; }
+  @media (max-width: 720px) { .foot-grid { grid-template-columns: 1fr; } }
+  .foot-col h4 { font-family: var(--sans); font-size: .72rem; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); margin: 0 0 1rem; }
+  .foot-col a { display: block; color: var(--parch-dim); text-decoration: none; font-size: .9rem; margin-bottom: .5rem; }
+  .foot-col a:hover { color: var(--gold-hi); }
+  .foot-logo { display: flex; align-items: center; gap: .7rem; margin-bottom: 1rem; }
+  .foot-bottom { margin-top: 2.4rem; padding-top: 1.4rem; border-top: 1px solid var(--line); display: flex; justify-content: space-between; flex-wrap: wrap; gap: .6rem; font-size: .74rem; color: var(--gold-deep); letter-spacing: .05em; }
+
+  .note-banner { background: rgba(201,162,75,.08); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); text-align: center; padding: .7rem 1rem; font-size: .72rem; letter-spacing: .08em; color: var(--gold); text-transform: uppercase; }
+
+  @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+</style>
+
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <div class="brand-lockup">
+      <div class="logo-ph" role="img" aria-label="Good Boys Brew logo"></div>
+      <div class="brand-name">
+        <b>Good Boys Brew</b>
+        <span>Craft Kombucha</span>
+      </div>
+    </div>
+    <nav>
+      <a href="#shop">Shop</a>
+      <a href="#story">Our Story</a>
+      <a href="#how">How It Works</a>
+      <a href="#find">Find Us</a>
+    </nav>
+    <button class="cart" type="button">Cart · 0</button>
+  </div>
+</header>
+
+<!-- BIG IMAGE HEADER -->
+<div class="hero">
+  <canvas id="steam"></canvas>
+  <span class="hero-corner tl"></span>
+  <span class="hero-corner tr"></span>
+  <span class="hero-corner bl"></span>
+  <span class="hero-corner br"></span>
+  <div class="hero-content">
+    <svg class="enso" viewBox="0 0 300 300" aria-hidden="true">
+      <defs>
+        <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#e7c976"/>
+          <stop offset="1" stop-color="#a07a2f"/>
+        </linearGradient>
+      </defs>
+      <path d="M212 62 C255 92 262 150 232 200 C202 250 132 262 84 232 C36 202 30 132 66 88 C92 56 140 44 180 58"
+            fill="none" stroke="url(#g)" stroke-width="12" stroke-linecap="round"
+            style="opacity:.9"/>
+    </svg>
+    <div class="hero-mono" role="img" aria-label="Good Boys Brew logo"></div>
+    <div class="hero-kicker">Good Boys Brew</div>
+  </div>
+  <span class="hero-photo-tag">Hero photography placeholder</span>
+</div>
+
+<!-- SLOGAN UNDER THE HEADER -->
+<div class="slogan">
+  <div class="wrap">
+    <div class="rule" style="margin-bottom:1.4rem"><span class="diamond"></span></div>
+    <h1>Explore Kombucha with <br><span class="accent">an Asian Twist</span></h1>
+    <p>Small-batch, live-cultured brews — from smoky Campfire to Hong Kong coffee-tea — refilled into your own growler, the low-waste way.</p>
+    <div class="cta-row">
+      <a href="#shop" class="btn btn-gold">Shop the Brews</a>
+      <a href="#story" class="btn btn-ghost">Our Story</a>
+    </div>
+  </div>
+</div>
+
+<div class="note-banner">Design mockup · Square checkout &amp; live catalog not yet connected</div>
+
+<!-- STORY -->
+<section class="story" id="story">
+  <div class="wrap story-grid">
+    <div class="story-copy">
+      <p class="eyebrow">Our Story</p>
+      <h2>Old-world tea culture, brewed for the growler generation</h2>
+      <p>Locally brewed small-batch kombucha made with organic ingredients — inspired by community, culture, and care for all pets, especially dogs. Woof!</p>
+      <p><strong>Free pickup &amp; delivery on orders over $25</strong> within the Greater Vancouver area.</p>
+      <p>A portion of proceeds from every kombucha sale goes to support our community Dragon Boat team, <strong>Blue Bloods</strong>.</p>
+      <a href="#how" class="btn btn-ghost" style="margin-top:.4rem">How refills work</a>
+    </div>
+    <div class="story-art">
+      <span class="ph-label">Brand / lifestyle image</span>
+    </div>
+  </div>
+</section>
+
+<!-- SHOP -->
+<section id="shop">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">The Shop</p>
+      <h2>Seven ways to brew good</h2>
+      <p>Four rotating flavours on tap, the growlers to carry them, and a live SCOBY if you'd rather brew your own.</p>
+    </div>
+
+    <div class="filters">
+      <button class="chip" aria-pressed="true">All</button>
+      <button class="chip">Refills</button>
+      <button class="chip">Growlers</button>
+      <button class="chip">Brew at Home</button>
+    </div>
+
+    <div class="grid">
+
+      <!-- Refills x4 -->
+      <article class="card">
+        <div class="card-img">
+          <span class="card-tag">Refill</span>
+          <svg class="bottle" viewBox="0 0 80 200" aria-hidden="true"><g fill="none" stroke="#e7c976" stroke-width="3"><path d="M30 12 h20 v18 c0 4 8 8 8 20 v120 c0 8-6 14-14 14 h-28 c-8 0-14-6-14-14 V50 c0-12 8-16 8-20 V12z"/><rect x="14" y="70" width="52" height="70" rx="3" fill="#f0d9a0" opacity=".16"/></g></svg>
+          <span class="fulfil">◗ Pickup &amp; local delivery</span>
+        </div>
+        <div class="card-body">
+          <h3>Campfire</h3>
+          <p class="note">Smoky, toasty &amp; a little sweet. Refills your growler.</p>
+          <div class="card-foot"><span class="price">$12</span><button class="add">Add</button></div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-img">
+          <span class="card-tag">Refill</span>
+          <svg class="bottle" viewBox="0 0 80 200" aria-hidden="true"><g fill="none" stroke="#e7c976" stroke-width="3"><path d="M30 12 h20 v18 c0 4 8 8 8 20 v120 c0 8-6 14-14 14 h-28 c-8 0-14-6-14-14 V50 c0-12 8-16 8-20 V12z"/><rect x="14" y="70" width="52" height="70" rx="3" fill="#e7a3b0" opacity=".16"/></g></svg>
+          <span class="fulfil">◗ Pickup &amp; local delivery</span>
+        </div>
+        <div class="card-body">
+          <h3>Dragon Claw</h3>
+          <p class="note">Bold oolong with a fruity, floral bite. Refills your growler.</p>
+          <div class="card-foot"><span class="price">$12</span><button class="add">Add</button></div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-img">
+          <span class="card-tag">Refill</span>
+          <svg class="bottle" viewBox="0 0 80 200" aria-hidden="true"><g fill="none" stroke="#e7c976" stroke-width="3"><path d="M30 12 h20 v18 c0 4 8 8 8 20 v120 c0 8-6 14-14 14 h-28 c-8 0-14-6-14-14 V50 c0-12 8-16 8-20 V12z"/><rect x="14" y="70" width="52" height="70" rx="3" fill="#a9c08a" opacity=".18"/></g></svg>
+          <span class="fulfil">◗ Pickup &amp; local delivery</span>
+        </div>
+        <div class="card-body">
+          <h3>Genmaicha</h3>
+          <p class="note">Green tea &amp; toasted rice — nutty and warm. Refills your growler.</p>
+          <div class="card-foot"><span class="price">$12</span><button class="add">Add</button></div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-img">
+          <span class="card-tag">Refill</span>
+          <svg class="bottle" viewBox="0 0 80 200" aria-hidden="true"><g fill="none" stroke="#e7c976" stroke-width="3"><path d="M30 12 h20 v18 c0 4 8 8 8 20 v120 c0 8-6 14-14 14 h-28 c-8 0-14-6-14-14 V50 c0-12 8-16 8-20 V12z"/><rect x="14" y="70" width="52" height="70" rx="3" fill="#cdd39a" opacity=".18"/></g></svg>
+          <span class="fulfil">◗ Pickup &amp; local delivery</span>
+        </div>
+        <div class="card-body">
+          <h3>HK Coffee Tea</h3>
+          <p class="note">Hong Kong coffee-tea blend — rich &amp; smooth. Refills your growler.</p>
+          <div class="card-foot"><span class="price">$12</span><button class="add">Add</button></div>
+        </div>
+      </article>
+
+      <!-- Growlers x2 -->
+      <article class="card">
+        <div class="card-img">
+          <span class="card-tag">Growler</span>
+          <svg class="bottle" viewBox="0 0 90 200" aria-hidden="true"><g fill="none" stroke="#e7c976" stroke-width="3"><path d="M34 12 h22 v16 c0 5 14 10 14 26 v112 c0 8-6 14-14 14 h-32 c-8 0-14-6-14-14 V54 c0-16 14-21 14-26 V12z"/></g></svg>
+          <span class="fulfil" style="color:var(--gold)">✦ Ships across Canada</span>
+        </div>
+        <div class="card-body">
+          <h3>1 L Glass Growler</h3>
+          <p class="note">Reusable amber glass with swing-top. Your refill vessel.</p>
+          <div class="card-foot"><span class="price">$15</span><button class="add">Add</button></div>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card-img">
+          <span class="card-tag">Growler</span>
+          <svg class="bottle" viewBox="0 0 100 200" aria-hidden="true"><g fill="none" stroke="#e7c976" stroke-width="3"><path d="M40 12 h22 v16 c0 5 18 12 18 30 v108 c0 8-6 14-14 14 h-42 c-8 0-14-6-14-14 V58 c0-18 18-25 18-30 V12z"/></g></svg>
+          <span class="fulfil" style="color:var(--gold)">✦ Ships across Canada</span>
+        </div>
+        <div class="card-body">
+          <h3>2 L Glass Growler</h3>
+          <p class="note">The share size. Fewer trips, more brew on hand.</p>
+          <div class="card-foot"><span class="price">$25</span><button class="add">Add</button></div>
+        </div>
+      </article>
+
+      <!-- SCOBY -->
+      <article class="card">
+        <div class="card-img">
+          <span class="card-tag">Brew at Home</span>
+          <svg class="bottle" viewBox="0 0 120 120" aria-hidden="true"><g fill="none" stroke="#e7c976" stroke-width="3"><ellipse cx="60" cy="62" rx="42" ry="20"/><ellipse cx="60" cy="54" rx="42" ry="20" fill="#f0d9a0" opacity=".14"/></g></svg>
+          <span class="fulfil" style="color:var(--gold)">✦ Ships across Canada</span>
+        </div>
+        <div class="card-body">
+          <h3>Live SCOBY Starter</h3>
+          <p class="note">A healthy culture + starter tea and a one-page brew guide.</p>
+          <div class="card-foot"><span class="price">$18</span><button class="add">Add</button></div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="wrap">
+    <div class="section-head">
+      <p class="eyebrow">How It Works</p>
+      <h2>Buy a growler once. Refill it forever.</h2>
+    </div>
+    <div class="steps">
+      <div class="step"><span class="num">壹</span><h3>Get your growler</h3><p>Pick up a 1 L or 2 L reusable glass growler — your vessel for every future refill.</p></div>
+      <div class="step"><span class="num">貳</span><h3>Fill it with flavour</h3><p>Choose from four rotating brews. We fill it fresh, live, and lightly fizzy.</p></div>
+      <div class="step"><span class="num">參</span><h3>Bring it back</h3><p>Empty growler? Order another refill and swap. Less glass, less waste, more brew.</p></div>
+    </div>
+
+    <div class="fulfil-row">
+      <div class="fulfil-card"><span class="ic">✦</span><div><b>Ship Canada-wide</b><span>Growlers &amp; SCOBY starters ship anywhere in Canada.</span></div></div>
+      <div class="fulfil-card"><span class="ic">◗</span><div><b>Local pickup</b><span>Grab refills &amp; orders at the shop or your local market.</span></div></div>
+      <div class="fulfil-card"><span class="ic">◷</span><div><b>Local delivery</b><span>Refills delivered fresh within our delivery zone.</span></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="find">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-col">
+        <div class="foot-logo">
+          <div class="logo-ph" style="width:40px;height:40px" role="img" aria-label="Good Boys Brew logo"></div>
+          <div class="brand-name"><b>Good Boys Brew</b><span>Craft Kombucha</span></div>
+        </div>
+        <p style="color:var(--parch-dim);font-size:.86rem;max-width:32ch">Kombucha with an Asian twist. Brewed small-batch, refilled with care.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Shop</h4>
+        <a href="#shop">Refills</a>
+        <a href="#shop">Growlers</a>
+        <a href="#shop">SCOBY Starter</a>
+        <a href="#how">How refills work</a>
+      </div>
+      <div class="foot-col">
+        <h4>Find Us</h4>
+        <a href="#find">Markets &amp; pickup</a>
+        <a href="#find">Delivery zone</a>
+        <a href="#find">Contact</a>
+        <a href="#find">Instagram</a>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Good Boys Brew · Made in Canada</span>
+      <span>Secure checkout by Square</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // subtle drifting steam in the hero — decorative only
+  (function () {
+    var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    var c = document.getElementById("steam");
+    if (!c) return;
+    var ctx = c.getContext("2d"), W, H, dots = [];
+    function size() {
+      W = c.width = c.offsetWidth * devicePixelRatio;
+      H = c.height = c.offsetHeight * devicePixelRatio;
+    }
+    size();
+    window.addEventListener("resize", size);
+    for (var i = 0; i < 34; i++) {
+      dots.push({ x: Math.random() * W, y: Math.random() * H, r: (12 + Math.random() * 40) * devicePixelRatio, s: .1 + Math.random() * .3, a: .04 + Math.random() * .06 });
+    }
+    function frame() {
+      ctx.clearRect(0, 0, W, H);
+      for (var i = 0; i < dots.length; i++) {
+        var d = dots[i];
+        d.y -= d.s * devicePixelRatio;
+        if (d.y + d.r < 0) { d.y = H + d.r; d.x = Math.random() * W; }
+        var g = ctx.createRadialGradient(d.x, d.y, 0, d.x, d.y, d.r);
+        g.addColorStop(0, "rgba(231,201,118," + d.a + ")");
+        g.addColorStop(1, "rgba(231,201,118,0)");
+        ctx.fillStyle = g;
+        ctx.beginPath(); ctx.arc(d.x, d.y, d.r, 0, Math.PI * 2); ctx.fill();
+      }
+      if (!reduce) requestAnimationFrame(frame);
+    }
+    frame();
+  })();
+
+  // filter chips (visual toggle only in this mockup)
+  var chips = document.querySelectorAll(".chip");
+  chips.forEach(function (ch) {
+    ch.addEventListener("click", function () {
+      chips.forEach(function (c) { c.setAttribute("aria-pressed", "false"); });
+      ch.setAttribute("aria-pressed", "true");
+    });
+  });
+</script>
